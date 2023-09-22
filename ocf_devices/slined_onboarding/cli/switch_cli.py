@@ -49,17 +49,17 @@ def _print_dpp_uri():
     try:
         dpp_uri = get_dpp_uri(os.environ.get('SO_IFACE'))
         listen_output = start_dpp_listen(os.environ.get('SO_IFACE'))
-        logger.debug('DPP listen init output: {}'.format(listen_output))
-        print('\nDPP URI: {}\n'.format(dpp_uri))
+        logger.debug(f'DPP listen init output: {listen_output}')
+        print(f'\nDPP URI: {dpp_uri}\n')
     except:
         logger.error('Failed to fetch/generate DPP URI')
 
 def state_update_print(discovered, state, error_state, error_message):
     cli_cv.acquire()
     if error_state is True:
-        print('IoTivity-Lite Error: {}'.format(error_message.decode('ascii')))
-    state_str = '\nLight discovered: {}\nLight state: {}'.format(discovered, 'N/A' if not discovered else state)
-    print('\nCurrent light state:{}'.format(state_str))
+        print(f"IoTivity-Lite Error: {error_message.decode('ascii')}")
+    state_str = f"\nLight discovered: {discovered}\nLight state: {'N/A' if not discovered else state}"
+    print(f'\nCurrent light state:{state_str}')
     cli_cv.notify()
     cli_cv.release()
 

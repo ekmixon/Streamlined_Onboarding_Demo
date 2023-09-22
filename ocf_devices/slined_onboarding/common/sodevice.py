@@ -24,7 +24,7 @@ class SoDevice:
         self.logger = logging.getLogger(__name__)
         self.logger.debug('Initializing ctypes library for SO Device.')
         lib_path = pkg_resources.resource_filename('slined_onboarding', 'resources/libso.so')
-        self.logger.debug('SO Device library path: {}'.format(lib_path))
+        self.logger.debug(f'SO Device library path: {lib_path}')
         self.device = ctypes.CDLL(lib_path)
         self._configure_lib()
 
@@ -41,8 +41,8 @@ class SoDevice:
         self._state_cb = self._state_cb_type(self._update_state)
 
     def _update_state(self, switch_state):
-        self.logger.debug('Discovered: {}'.format(switch_state.contents.discovered))
-        self.logger.debug('State: {}'.format(switch_state.contents.state))
+        self.logger.debug(f'Discovered: {switch_state.contents.discovered}')
+        self.logger.debug(f'State: {switch_state.contents.state}')
 
         self.light_state = switch_state.contents.state
         self.light_discovered = switch_state.contents.discovered

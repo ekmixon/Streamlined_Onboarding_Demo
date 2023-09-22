@@ -21,7 +21,7 @@ from slined_onboarding.lamp import LampUi
 def lamp_main():
     logging.basicConfig(format='%(levelname)s [%(name)s]: %(message)s', level=logging.DEBUG)
     logger = logging.getLogger(__name__)
-    logger.debug('Current directory is {}'.format(os.getcwd()))
+    logger.debug(f'Current directory is {os.getcwd()}')
     logger.debug('Loading environment vars from .env')
     load_dotenv()
     iface_name = os.environ.get('SO_IFACE')

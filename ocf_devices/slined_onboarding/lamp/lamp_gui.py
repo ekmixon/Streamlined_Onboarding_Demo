@@ -32,10 +32,12 @@ class LampUi(SoPiUi):
     def _state_update_ui(self, device_state):
         (discovered, state, error_state, error_message) = device_state
         self.logger.debug('State update called...')
-        self.logger.debug('Current state: discovered {}, state {} error_state {} error_message {}'.format(discovered, state, error_state, error_message))
+        self.logger.debug(
+            f'Current state: discovered {discovered}, state {state} error_state {error_state} error_message {error_message}'
+        )
         if error_state:
             self.logger.error('Error flag set')
-            error_text = '<font color="red">{}</font>'.format(error_message.decode('ascii'))
+            error_text = f"""<font color="red">{error_message.decode('ascii')}</font>"""
             self.append_output_text(error_text)
             return
         self.img_label.set_img(self._on_img if state else self._off_img)
@@ -67,7 +69,9 @@ class LampWorker(QObject):
 
     def _state_update(self, discovered, state, error_state, error_message):
         self.logger.debug('State update called...')
-        self.logger.debug('Current state: discovered {}, state {} error_state {} error_message {}'.format(discovered, state, error_state, error_message))
-        self.logger.debug('Setting lamp pin value to {}'.format(state))
+        self.logger.debug(
+            f'Current state: discovered {discovered}, state {state} error_state {error_state} error_message {error_message}'
+        )
+        self.logger.debug(f'Setting lamp pin value to {state}')
         so_gpio.set_pin_value(4, state)
         self.device_state.emit((discovered, state, error_state, error_message))
