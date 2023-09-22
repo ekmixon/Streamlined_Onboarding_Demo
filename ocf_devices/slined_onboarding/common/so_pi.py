@@ -71,7 +71,7 @@ class SoPiUi(QtWidgets.QMainWindow):
             dpp_uri = get_dpp_uri(self.iface_name)
             self.qr_img = ImageQt(qrcode.make(dpp_uri))
             listen_output = start_dpp_listen(self.iface_name)
-            self.logger.debug('DPP listen init output: {}'.format(listen_output))
+            self.logger.debug(f'DPP listen init output: {listen_output}')
         except:
             self.logger.error('Failed to fetch/generate DPP URI')
 
@@ -145,4 +145,3 @@ class SoPiUi(QtWidgets.QMainWindow):
     # Should be overridden by inheriting classes
     def _state_update_ui(self, device_state):
         print('Super class state update')
-        pass

@@ -23,7 +23,7 @@ def start_dpp_listen(iface_name):
     return _call_wpa_cli(iface_name, dpp_listen_args)
 
 def get_dpp_uri(iface_name):
-    logger.info('Trying to fetch DPP URI for interface {}'.format(iface_name))
+    logger.info(f'Trying to fetch DPP URI for interface {iface_name}')
     try:
         return _fetch_dpp_uri(iface_name)
     except:
@@ -39,9 +39,9 @@ def _fetch_dpp_uri(iface_name):
     return cmd_output
 
 def _gen_dpp_uri(iface_name):
-    with open('/sys/class/net/{}/address'.format(iface_name), 'r') as f:
+    with open(f'/sys/class/net/{iface_name}/address', 'r') as f:
         mac_addr = f.read().strip().replace(':', '')
-    gen_args = ['dpp_bootstrap_gen', 'type=qrcode', 'mac={}'.format(mac_addr), 'chan=81/1']
+    gen_args = ['dpp_bootstrap_gen', 'type=qrcode', f'mac={mac_addr}', 'chan=81/1']
     cmd_output = _call_wpa_cli(iface_name, gen_args)
     if re.match('^[\d]+$', cmd_output) is None:
         raise Exception
@@ -50,10 +50,10 @@ def _gen_dpp_uri(iface_name):
 def _call_wpa_cli(iface_name, cmd_args):
     base_args = ['wpa_cli', '-i', iface_name]
     full_args = base_args + cmd_args
-    logger.debug('Arguments for wpa_cli call: {}'.format(full_args))
+    logger.debug(f'Arguments for wpa_cli call: {full_args}')
     result = subprocess.run(full_args, capture_output=True)
     if result.returncode != 0:
         raise Exception
     cmd_output = result.stdout.strip().decode('ascii')
-    logger.debug('wpa_cli output: {}'.format(cmd_output))
+    logger.debug(f'wpa_cli output: {cmd_output}')
     return cmd_output
